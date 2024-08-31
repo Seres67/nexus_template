@@ -52,8 +52,9 @@ void addon_load(AddonAPI *api_p)
     api = api_p;
 
     ImGui::SetCurrentContext(static_cast<ImGuiContext *>(api->ImguiContext));
-    ImGui::SetAllocatorFunctions(static_cast<void *(*)(size_t, void *)>(api->ImguiMalloc),
-                                 static_cast<void (*)(void *, void *)>(api->ImguiFree)); // on imgui 1.80+
+    ImGui::SetAllocatorFunctions((void *(*)(size_t, void *))(api->ImguiMalloc),
+                                 (void (*)(void *, void *))(api->ImguiFree)); // on imgui 1.80+
+
     api->Renderer.Register(ERenderType_Render, addon_render);
     api->Renderer.Register(ERenderType_OptionsRender, addon_options);
     // api->WndProc.Register(wnd_proc);
@@ -78,7 +79,6 @@ void addon_unload()
     api = nullptr;
 }
 
-bool tmp_open = true;
 void addon_render()
 {
     render_window();
