@@ -44,10 +44,6 @@ void load(const std::filesystem::path &path)
 
 void save(const std::filesystem::path &path)
 {
-    if (json_settings.is_null()) {
-        api->Log(ELogLevel_WARNING, addon_name, "settings.json is null, cannot save.");
-        return;
-    }
     if (!std::filesystem::exists(path.parent_path())) {
         std::filesystem::create_directories(path.parent_path());
     }
