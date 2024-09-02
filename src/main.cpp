@@ -42,7 +42,7 @@ extern "C" __declspec(dllexport) AddonDefinition *GetAddonDef()
     addon_def.Unload = addon_unload;
     addon_def.Flags = EAddonFlags_None;
     addon_def.Provider = EUpdateProvider_GitHub;
-    addon_def.UpdateLink = "https://github.com/Seres67/nexus_chat_shorts"; // TODO: change this
+    addon_def.UpdateLink = nullptr; // TODO: change this
 
     return &addon_def;
 }
@@ -79,10 +79,7 @@ void addon_unload()
     api = nullptr;
 }
 
-void addon_render()
-{
-    render_window();
-}
+void addon_render() { render_window(); }
 
 void addon_options() { render_options(); }
 
