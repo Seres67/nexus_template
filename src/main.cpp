@@ -60,12 +60,8 @@ void addon_load(AddonAPI *api_p)
     // api->WndProc.Register(wnd_proc);
 
     Settings::settings_path = api->Paths.GetAddonDirectory("template\\settings.json"); //TODO: change this
-    if (std::filesystem::exists(Settings::settings_path)) {
+    if (std::filesystem::exists(Settings::settings_path))
         Settings::load(Settings::settings_path);
-    } /*else {
-        Settings::json_settings[Settings::IS_ADDON_ENABLED] = Settings::is_addon_enabled;
-        Settings::save(Settings::settings_path);
-    }*/
     api->Log(ELogLevel_INFO, addon_name, "addon loaded!");
 }
 

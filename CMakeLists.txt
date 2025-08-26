@@ -36,7 +36,7 @@ target_link_libraries(nexus_template PRIVATE imgui)
 set_property(TARGET nexus_template PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 # copy dll to game directory
-add_custom_command(TARGET nexus_template
+add_custom_command(TARGET nexus_template POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:nexus_template>
         "C:\\Games\\Guild Wars 2\\addons\\nexus_template.dll.update"
