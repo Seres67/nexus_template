@@ -11,7 +11,7 @@ void addon_render();
 void addon_options();
 // UINT wnd_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-BOOL APIENTRY dll_main(const HMODULE hModule, const DWORD ul_reason_for_call, LPVOID lpReserved)
+BOOL APIENTRY dll_main(const HMODULE hModule, const DWORD ul_reason_for_call, [[maybe_unused]] LPVOID lpReserved)
 {
     switch (ul_reason_for_call) {
     case DLL_PROCESS_ATTACH:
@@ -78,7 +78,7 @@ void addon_render() { render_window(); }
 
 void addon_options() { render_options(); }
 
-// UINT wnd_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+// UINT wnd_proc(HWND__ *h_wnd, const UINT u_msg, const WPARAM w_param, const LPARAM l_param)
 // {
 //     if (!game_handle)
 //         game_handle = hWnd;
