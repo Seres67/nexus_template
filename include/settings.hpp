@@ -7,8 +7,8 @@
 namespace Settings
 {
 
-void load(const std::filesystem::path &path);
-void save(const std::filesystem::path &path);
+void load();
+void save();
 
 extern nlohmann::json json_settings;
 extern std::filesystem::path settings_path;

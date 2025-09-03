@@ -52,16 +52,15 @@ void addon_load(AddonAPI *api_p)
     api = api_p;
 
     ImGui::SetCurrentContext(static_cast<ImGuiContext *>(api->ImguiContext));
-    ImGui::SetAllocatorFunctions((void *(*)(size_t, void *))(api->ImguiMalloc),
-                                 (void (*)(void *, void *))(api->ImguiFree)); // on imgui 1.80+
+    ImGui::SetAllocatorFunctions(static_cast<void *(*)(size_t, void *)>(api->ImguiMalloc),
+                                 static_cast<void (*)(void *, void *)>(api->ImguiFree)); // on imgui 1.80+
 
     api->Renderer.Register(ERenderType_Render, addon_render);
     api->Renderer.Register(ERenderType_OptionsRender, addon_options);
     // api->WndProc.Register(wnd_proc);
 
-    Settings::settings_path = api->Paths.GetAddonDirectory("template\\settings.json"); //TODO: change this
-    if (std::filesystem::exists(Settings::settings_path))
-        Settings::load(Settings::settings_path);
+    Settings::settings_path = api->Paths.GetAddonDirectory("template\\settings.json"); // TODO: change this
+    Settings::load();
     api->Log(ELogLevel_INFO, addon_name, "addon loaded!");
 }
 
@@ -70,7 +69,7 @@ void addon_unload()
     api->Log(ELogLevel_INFO, addon_name, "unloading addon...");
     api->Renderer.Deregister(addon_render);
     api->Renderer.Deregister(addon_options);
-    //api->WndProc.Deregister(wnd_proc);
+    // api->WndProc.Deregister(wnd_proc);
     api->Log(ELogLevel_INFO, addon_name, "addon unloaded!");
     api = nullptr;
 }

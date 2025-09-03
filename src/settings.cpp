@@ -13,19 +13,18 @@ json json_settings;
 std::mutex mutex;
 std::filesystem::path settings_path;
 
-bool is_addon_enabled = true;
 
-void load(const std::filesystem::path &path)
+void load()
 {
     json_settings = json::object();
-    if (!std::filesystem::exists(path)) {
+    if (!std::filesystem::exists(settings_path)) {
         return;
     }
 
     {
         std::lock_guard lock(mutex);
         try {
-            if (std::ifstream file(path); file.is_open()) {
+            if (std::ifstream file(settings_path); file.is_open()) {
                 json_settings = json::parse(file);
                 file.close();
             }
@@ -34,17 +33,19 @@ void load(const std::filesystem::path &path)
             api->Log(ELogLevel_WARNING, addon_name, ex.what());
         }
     }
+    // if (!json_settings[SETTING].is_null())
+    //     json_settings[SETTING].get_to(variable);
     api->Log(ELogLevel_INFO, addon_name, "settings loaded!");
 }
 
-void save(const std::filesystem::path &path)
+void save()
 {
-    if (!std::filesystem::exists(path.parent_path())) {
-        std::filesystem::create_directories(path.parent_path());
+    if (!std::filesystem::exists(settings_path.parent_path())) {
+        std::filesystem::create_directories(settings_path.parent_path());
     }
     {
         std::lock_guard lock(mutex);
-        if (std::ofstream file(path); file.is_open()) {
+        if (std::ofstream file(settings_path); file.is_open()) {
             file << json_settings.dump(1, '\t') << std::endl;
             file.close();
         }
